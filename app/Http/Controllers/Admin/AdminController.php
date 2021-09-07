@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\RequestPoint;
+use App\Models\Withdraw;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
@@ -57,7 +58,6 @@ class AdminController extends Controller
     }
 
    
-    
     public function delete_request(Request $request){
         if($request->method()=="POST"){
             $data = $request->input();
@@ -67,33 +67,57 @@ class AdminController extends Controller
         }
     }
 
-    public function withdraw_list(Request $request){
+    public function withdraw_list(){
         $withdraw_point = Withdraw::get();
         return view('backend.admin.withdraw_list')->with(compact('withdraw_point'));
     }
 
-    public function approved_withdraw(Request $request){
-        
+    public function approved_withdraw(){
+        $withdraw_point = Withdraw::where('status','approved')->get();
+        return view('backend.admin.withdraw_list_approved')->with(compact('withdraw_point'));        
     }
 
-    public function pending_withdraw(Request $request){
-        
+    public function pending_withdraw(){
+        $withdraw_point = Withdraw::where('status','pending')->get();
+        return view('backend.admin.withdraw_list')->with(compact('withdraw_point'));
     }
 
+    
     public function success_withdraw(Request $request){
-        
+        if($request->method()=="POST"){
+            $data = $request->input();
+            $Withdraw = Withdraw::find($data['id']);
+            $Withdraw->status = 'approved';
+            $Withdraw->save();
+
+            return redirect('admin/withdraw_list')->with('success',"Withdraw Approved Successfully");	
+        }
     }
+
 
     public function reject_withdraw(Request $request){
-        
+        if($request->method()=="POST"){
+            $data = $request->input();
+            $Withdraw = Withdraw::find($data['id']);
+            $Withdraw->status = 'reject';
+            $Withdraw->save();
+
+            return redirect('admin/withdraw_list')->with('success',"Withdraw Rejected Successfully");	
+        }
     }
 
     public function delete_withdraw(Request $request){
-        
+        if($request->method()=="POST"){
+            $data = $request->input();
+            $Withdraw = Withdraw::find($data['id']);
+            $Withdraw->delete();
+            return redirect('admin/withdraw_list')->with('success',"Withdraw Deleted  Successfully");	
+        }
     }
 
     public function payment_list(Request $request){
-        
+        $payment = Payment::get();
+        return view('backend.admin.payment_list')->with(compact('payment'));
     }
 
     public function approved_payment(Request $request){

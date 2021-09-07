@@ -31,7 +31,7 @@
                             <th>Server</th>
                             <th>Amount</th>
                             <th>Status</th>
-                            <th class="text-center">Actions</th>
+                       
                         </tr>
                     </thead>
                     <tbody>
@@ -43,11 +43,7 @@
                                 <td>{{ $point_withdraw->server_id}}</td>
                                 <td>{{ $point_withdraw->amount}}</td>
                                 <td style="text-transform: capitalize">{{ $point_withdraw->status}}</td>
-                                <td style="display: inline-flex"> 
-                                    <form class="form-inline" style="margin: 3px" action="{{ route('admin.success_withdraw') }}" method="POST">@csrf<input type="hidden" name="id" value="{{$point_request->id}}"><input type="submit" class="btn btn-sm btn-success" value="A"></form>
-                                    <form class="form-inline" style="margin: 3px" action="{{ route('admin.reject_withdraw') }}" method="POST">@csrf<input type="hidden" name="id" value="{{$point_request->id}}"><input type="submit" class="btn btn-sm btn-warning" value="R"></form>
-                                    <form class="form-inline" style="margin: 3px" action="{{ route('admin.delete_withdraw') }}" method="POST">@csrf<input type="hidden" name="id" value="{{$point_request->id}}"><input type="submit" class="btn btn-sm btn-danger" value="D"></form>
-                                </td>
+                  
         
                             </tr>
                             @endforeach
